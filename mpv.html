@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AGI FirstSource - 主页</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#00D4FF',
+                        secondary: '#0A0A0A',
+                        accent: '#FF6B35',
+                        neon: '#00FF88',
+                        dark: '#0F0F0F',
+                        'dark-light': '#1A1A1A',
+                        'dark-lighter': '#2A2A2A',
+                        text: '#FFFFFF',
+                        'text-light': '#B0B0B0',
+                        'text-lighter': '#808080',
+                        card: '#1A1A1A',
+                        'card-hover': '#2A2A2A',
+                        gradient: {
+                            'from': '#00D4FF',
+                            'via': '#FF6B35',
+                            'to': '#00FF88'
+                        }
+                    },
+                    fontFamily: {
+                        'tech': ['JetBrains Mono', 'Fira Code', 'Consolas', 'monospace'],
+                        'sans': ['Inter', 'SF Pro Display', 'system-ui', 'sans-serif'],
+                    },
+                    animation: {
+                        'glow': 'glow 2s ease-in-out infinite alternate',
+                        'float': 'float 3s ease-in-out infinite',
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    },
+                    keyframes: {
+                        glow: {
+                            '0%': { boxShadow: '0 0 5px #00D4FF, 0 0 10px #00D4FF, 0 0 15px #00D4FF' },
+                            '100%': { boxShadow: '0 0 10px #00D4FF, 0 0 20px #00D4FF, 0 0 30px #00D4FF' }
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-10px)' }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .content-auto { content-visibility: auto; }
+            .hover-lift { @apply transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl; }
+            .tag-pill { @apply inline-block px-3 py-1.5 rounded-full text-xs font-tech font-medium bg-gradient-to-r from-primary to-neon text-dark; }
+            .nav-active { @apply bg-gradient-to-r from-primary/20 to-neon/20 text-primary border-l-4 border-primary shadow-lg; }
+            /* 为侧栏"关注设置"搜索多选添加一致的标签样式 */
+            .selected-tag { @apply inline-flex items-center px-3 py-1.5 bg-gradient-to-r from-primary/20 to-neon/20 text-primary rounded-full text-xs mr-2 mb-2 border border-primary/30; }
+            .remove-tag { @apply ml-2 text-primary/60 hover:text-accent cursor-pointer transition-colors; }
+            
+            /* Tech-savvy enhancements */
+            .tech-card { @apply bg-gradient-to-br from-dark-light to-card border border-dark-lighter hover:border-primary/50 transition-all duration-300; }
+            .tech-glow { @apply shadow-lg hover:shadow-primary/20; }
+            .tech-text { @apply font-sans text-text; }
+            .tech-heading { @apply font-tech text-primary font-bold; }
+            .gradient-text { @apply bg-gradient-to-r from-primary via-accent to-neon bg-clip-text text-transparent; }
+            .cyber-border { @apply border border-primary/30 hover:border-primary/60 transition-all duration-300; }
+            .neon-glow { @apply shadow-lg hover:shadow-primary/30 transition-all duration-300; }
+        }
+        
+        /* Custom animations and effects */
+        .tech-card:hover {
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.3), 0 0 40px rgba(0, 212, 255, 0.1);
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, #0F0F0F 0%, #1A1A1A 50%, #0A0A0A 100%);
+        }
+        
+        .tech-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        
+        .tech-scrollbar::-webkit-scrollbar-track {
+            background: #1A1A1A;
+        }
+        
+        .tech-scrollbar::-webkit-scrollbar-thumb {
+            background: linear-gradient(to bottom, #00D4FF, #00FF88);
+            border-radius: 3px;
+        }
+        
+        .tech-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(to bottom, #00FF88, #00D4FF);
+        }
+    </style>
+    <meta name="description" content="AGI开发者的一手信源聚合 - 主页（整页演示 + 模块入口）">
+</head>
+<body class="font-sans gradient-bg text-text tech-scrollbar">
+    <!-- 顶部导航栏 -->
+    <header class="fixed top-0 left-0 right-0 bg-dark/95 backdrop-blur-md border-b border-primary/20 shadow-lg z-50">
+        <div class="container mx-auto px-4 md:px-6">
+            <div class="flex items-center justify-between h-16">
+                <!-- Logo区域 -->
+                <div class="flex items-center">
+                    <a href="index.html" class="flex items-center">
+                        <span class="text-xl font-tech font-bold gradient-text animate-pulse-slow">AGI FirstSource</span>
+                        <span class="ml-2 text-xs text-text-light hidden sm:inline-block font-tech">AGI开发者的一手信源聚合</span>
+                    </a>
+                </div>
+
+     
+                <!-- 右侧功能区 -->
+                <div class="flex items-center space-x-4">
+                    <a href="follow-settings.html" class="flex items-center px-4 py-2 text-sm hover:text-primary transition-colors font-tech bg-primary/10 rounded-lg hover:bg-primary/20 animate-pulse-slow">
+                        <i class="fa fa-heart mr-2 text-primary"></i>
+                        <span>我的关注</span>
+                    </a>
+                    
+                    <!-- 移动端菜单按钮 -->
+                    <button class="md:hidden flex items-center px-2 py-2">
+                        <i class="fa fa-bars"></i>
+                    </button>
+                </div>
+            </div>
+
+
+        </div>
+    </header>
+
+    <!-- 主内容区 - 三栏布局 -->
+    <main class="container mx-auto px-4 md:px-6 pt-24 pb-16">
+        <div class="flex flex-col lg:flex-row gap-6">
+            <!-- 左侧导航栏 -->
+            <aside class="hidden lg:block w-48 flex-shrink-0 sticky top-24 self-start h-[calc(100vh-6rem)] overflow-y-auto">
+                <div class="tech-card rounded-lg shadow-lg p-4 neon-glow">
+                    <ul class="space-y-1">
+                        <li>
+                            <a href="#core-people" class="nav-link block px-3 py-2 text-sm hover:bg-primary/10 rounded transition-all duration-300 text-text-light hover:text-primary">
+                                <i class="fa fa-user-circle-o mr-2 text-primary"></i>核心牛人
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#company-news" class="nav-link block px-3 py-2 text-sm hover:bg-primary/10 rounded transition-all duration-300 text-text-light hover:text-primary">
+                                <i class="fa fa-building-o mr-2 text-primary"></i>公司产品
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#ai-solutions" class="nav-link block px-3 py-2 text-sm hover:bg-primary/10 rounded transition-all duration-300 text-text-light hover:text-primary">
+                                <i class="fa fa-cogs mr-2 text-primary"></i>AI应用解决方案
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#learning-ai" class="nav-link block px-3 py-2 text-sm hover:bg-primary/10 rounded transition-all duration-300 text-text-light hover:text-primary">
+                                <i class="fa fa-graduation-cap mr-2 text-primary"></i>我在学AI
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#open-source" class="nav-link block px-3 py-2 text-sm hover:bg-primary/10 rounded transition-all duration-300 text-text-light hover:text-primary">
+                                <i class="fa fa-code-fork mr-2 text-primary"></i>开源社区
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#academic-resources" class="nav-link block px-3 py-2 text-sm hover:bg-primary/10 rounded transition-all duration-300 text-text-light hover:text-primary">
+                                <i class="fa fa-book mr-2 text-primary"></i>学术资源平台
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#ai-media" class="nav-link block px-3 py-2 text-sm hover:bg-primary/10 rounded transition-all duration-300 text-text-light hover:text-primary">
+                                <i class="fa fa-newspaper-o mr-2 text-primary"></i>AI专业媒体
+                            </a>
+                        </li>
+                    </ul>
+
+                    
+
+                    
+                </div>
+            </aside>
+
+            <!-- 中间主内容区（整页演示，基于 mvp.html） -->
+            <div class="flex-1 min-w-0">
+                <!-- 引入现有原型的所有模块，确保打开 index.html 可查看全部效果 -->
+                <!-- 为避免重复维护，这里直接从 mvp.html 拷贝主要 section 结构 -->
+                <!-- 核心牛人社交链接 -->
+                <section id="core-people" class="mb-10">
+                    <h2 class="text-2xl font-tech font-bold gradient-text mb-6">核心人物</h2>
+                    <div class="h-px bg-gradient-to-r from-transparent via-primary/50 to-transparent mb-6"></div>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div class="tech-card p-5 rounded-lg shadow-lg hover-lift neon-glow">
+                            <div class="flex items-center mb-4">
+                                <img src="https://picsum.photos/id/1/40/40" alt="Andrej Karpathy" class="w-10 h-10 rounded-full mr-3">
+                                <h3 class="font-medium">Andrej Karpathy</h3>
+                            </div>
+                            <p class="text-sm text-text-light mb-4">前OpenAI AI总监，Tesla自动驾驶负责人，计算机视觉与AI领域专家，以深度学习教程和AI普及工作闻名。</p>
+                            <div class="flex flex-wrap gap-2">
+                                <a href="#" class="inline-flex items-center px-3 py-1.5 bg-blue-50 text-blue-600 rounded-md text-sm hover:bg-blue-100 transition-colors">
+                                    <i class="fa fa-twitter mr-1"></i> X/Twitter
+                                </a>
+                                <a href="#" class="inline-flex items-center px-3 py-1.5 bg-red-50 text-red-600 rounded-md text-sm hover:bg-red-100 transition-colors">
+                                    <i class="fa fa-youtube-play mr-1"></i> YouTube
+                                </a>
+                                <a href="#" class="inline-flex items-center px-3 py-1.5 bg-gray-50 text-gray-600 rounded-md text-sm hover:bg-gray-100 transition-colors">
+                                    <i class="fa fa-globe mr-1"></i> 个人博客
+                                </a>
+                                <a href="#" class="inline-flex items-center px-3 py-1.5 bg-gray-50 text-gray-600 rounded-md text-sm hover:bg-gray-100 transition-colors">
+                                    <i class="fa fa-github mr-1"></i> GitHub
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="tech-card p-5 rounded-lg shadow-lg hover-lift neon-glow">
+                            <div class="flex items-center mb-4">
+                                <img src="https://picsum.photos/id/2/40/40" alt="吴恩达" class="w-10 h-10 rounded-full mr-3">
+                                <h3 class="font-medium">吴恩达 (Andrew Ng)</h3>
+                            </div>
+                            <p class="text-sm text-text-light mb-4">斯坦福大学计算机科学教授，AI领域权威学者，Coursera和DeepLearning.AI创始人，曾领导Google Brain项目。</p>
+                            <div class="flex flex-wrap gap-2">
+                                <a href="#" class="inline-flex items-center px-3 py-1.5 bg-blue-50 text-blue-600 rounded-md text-sm hover:bg-blue-100 transition-colors">
+                                    <i class="fa fa-twitter mr-1"></i> X/Twitter
+                                </a>
+                                <a href="#" class="inline-flex items-center px-3 py-1.5 bg-red-50 text-red-600 rounded-md text-sm hover:bg-red-100 transition-colors">
+                                    <i class="fa fa-youtube-play mr-1"></i> YouTube
+                                </a>
+                                <a href="#" class="inline-flex items-center px-3 py-1.5 bg-gray-50 text-gray-600 rounded-md text-sm hover:bg-gray-100 transition-colors">
+                                    <i class="fa fa-globe mr-1"></i> Landing AI
+                                </a>
+                                <a href="#" class="inline-flex items-center px-3 py-1.5 bg-gray-50 text-gray-600 rounded-md text-sm hover:bg-gray-100 transition-colors">
+                                    <i class="fa fa-linkedin mr-1"></i> LinkedIn
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="tech-card p-5 rounded-lg shadow-lg hover-lift neon-glow">
+                            <div class="flex items-center mb-4">
+                                <img src="https://picsum.photos/id/3/40/40" alt="Yann LeCun" class="w-10 h-10 rounded-full mr-3">
+                                <h3 class="font-medium">Yann LeCun</h3>
+                            </div>
+                            <p class="text-sm text-text-light mb-4">纽约大学教授，Meta首席AI科学家，图灵奖得主，卷积神经网络(CNN)的主要发明者之一，计算机视觉领域先驱。</p>
+                            <div class="flex flex-wrap gap-2">
+                                <a href="#" class="inline-flex items-center px-3 py-1.5 bg-blue-50 text-blue-600 rounded-md text-sm hover:bg-blue-100 transition-colors">
+                                    <i class="fa fa-twitter mr-1"></i> X/Twitter
+                                </a>
+                                <a href="#" class="inline-flex items-center px-3 py-1.5 bg-gray-50 text-gray-600 rounded-md text-sm hover:bg-gray-100 transition-colors">
+                                    <i class="fa fa-globe mr-1"></i> 个人主页
+                                </a>
+                                <a href="#" class="inline-flex items-center px-3 py-1.5 bg-gray-50 text-gray-600 rounded-md text-sm hover:bg-gray-100 transition-colors">
+                                    <i class="fa fa-github mr-1"></i> GitHub
+                                </a>
+                                <a href="#" class="inline-flex items-center px-3 py-1.5 bg-gray-50 text-gray-600 rounded-md text-sm hover:bg-gray-100 transition-colors">
+                                    <i class="fa fa-google mr-1"></i> Google Scholar
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 公司产品 -->
+                <section id="company-news" class="mb-10">
+                    <h2 class="text-2xl font-tech font-bold gradient-text mb-6">公司产品</h2>
+                    <div class="h-px bg-gradient-to-r from-transparent via-primary/50 to-transparent mb-6"></div>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <!-- OpenAI 产品 -->
+                        <div class="tech-card p-5 rounded-lg shadow-lg hover-lift neon-glow">
+                            <div class="flex items-center mb-4">
+                                <div class="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center mr-3">
+                                    <span class="text-green-600 font-bold text-sm">O</span>
+                                </div>
+                                <h3 class="font-medium">OpenAI</h3>
+                            </div>
+                            <p class="text-sm text-text-light mb-4">人工智能研究公司，专注于开发安全的人工通用智能，以GPT系列和DALL-E等产品闻名。</p>
+                            <div class="flex flex-wrap gap-2">
+                                <a href="https://openai.com/gpt-4" target="_blank" class="inline-flex items-center px-3 py-1.5 bg-blue-50 text-blue-600 rounded-md text-sm hover:bg-blue-100 transition-colors">
+                                    <i class="fa fa-brain mr-1"></i> GPT-4
+                                </a>
+                                <a href="https://openai.com/gpt-4o" target="_blank" class="inline-flex items-center px-3 py-1.5 bg-purple-50 text-purple-600 rounded-md text-sm hover:bg-purple-100 transition-colors">
+                                    <i class="fa fa-eye mr-1"></i> GPT-4o
+                                </a>
+                                <a href="https://openai.com/dall-e-3" target="_blank" class="inline-flex items-center px-3 py-1.5 bg-pink-50 text-pink-600 rounded-md text-sm hover:bg-pink-100 transition-colors">
+                                    <i class="fa fa-image mr-1"></i> DALL-E 3
+                                </a>
+                                <a href="https://openai.com/sora" target="_blank" class="inline-flex items-center px-3 py-1.5 bg-red-50 text-red-600 rounded-md text-sm hover:bg-red-100 transition-colors">
+                                    <i class="fa fa-video-camera mr-1"></i> Sora
+                                </a>
+                            </div>
+                        </div>
+
+                        <!-- Qwen（阿里）产品 -->
+                        <div class="tech-card p-5 rounded-lg shadow-lg hover-lift neon-glow">
+                            <div class="flex items-center mb-4">
+                                <div class="w-10 h-10 rounded-full bg-orange-100 flex items-center justify-center mr-3">
+                                    <span class="text-orange-600 font-bold text-sm">Q</span>
+                                </div>
+                                <h3 class="font-medium">Qwen（阿里）</h3>
+                            </div>
+                            <p class="text-sm text-text-light mb-4">阿里巴巴达摩院开发的大语言模型系列，涵盖文本、视觉、音频等多模态AI能力。</p>
+                            <div class="flex flex-wrap gap-2">
+                                <a href="https://qwenlm.github.io/blog/qwen3/" target="_blank" class="inline-flex items-center px-3 py-1.5 bg-blue-50 text-blue-600 rounded-md text-sm hover:bg-blue-100 transition-colors">
+                                    <i class="fa fa-cube mr-1"></i> Qwen3-Omni
+                                </a>
+                                <a href="https://qwenlm.github.io/blog/qwen-vl/" target="_blank" class="inline-flex items-center px-3 py-1.5 bg-green-50 text-green-600 rounded-md text-sm hover:bg-green-100 transition-colors">
+                                    <i class="fa fa-eye mr-1"></i> Qwen-VL
+                                </a>
+                                <a href="https://qwenlm.github.io/blog/qwen-audio/" target="_blank" class="inline-flex items-center px-3 py-1.5 bg-purple-50 text-purple-600 rounded-md text-sm hover:bg-purple-100 transition-colors">
+                                    <i class="fa fa-volume-up mr-1"></i> Qwen-Audio
+                                </a>
+                                <a href="https://qwenlm.github.io/blog/qwen2.5/" target="_blank" class="inline-flex items-center px-3 py-1.5 bg-gray-50 text-gray-600 rounded-md text-sm hover:bg-gray-100 transition-colors">
+                                    <i class="fa fa-comments mr-1"></i> Qwen2.5
+                                </a>
+                            </div>
+                        </div>
+
+                        <!-- DeepMind 产品 -->
+                        <div class="tech-card p-5 rounded-lg shadow-lg hover-lift neon-glow">
+                            <div class="flex items-center mb-4">
+                                <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center mr-3">
+                                    <span class="text-blue-600 font-bold text-sm">D</span>
+                                </div>
+                                <h3 class="font-medium">DeepMind</h3>
+                            </div>
+                            <p class="text-sm text-text-light mb-4">Google旗下AI研究实验室，专注于解决智能问题，以AlphaGo、AlphaFold等突破性研究闻名。</p>
+                            <div class="flex flex-wrap gap-2">
+                                <a href="https://deepmind.google/technologies/gemini/" target="_blank" class="inline-flex items-center px-3 py-1.5 bg-blue-50 text-blue-600 rounded-md text-sm hover:bg-blue-100 transition-colors">
+                                    <i class="fa fa-gem mr-1"></i> Gemini
+                                </a>
+                                <a href="https://deepmind.google/technologies/alphafold/" target="_blank" class="inline-flex items-center px-3 py-1.5 bg-green-50 text-green-600 rounded-md text-sm hover:bg-green-100 transition-colors">
+                                    <i class="fa fa-dna mr-1"></i> AlphaFold
+                                </a>
+                                <a href="https://deepmind.google/technologies/alphago/" target="_blank" class="inline-flex items-center px-3 py-1.5 bg-yellow-50 text-yellow-600 rounded-md text-sm hover:bg-yellow-100 transition-colors">
+                                    <i class="fa fa-gamepad mr-1"></i> AlphaGo
+                                </a>
+                                <a href="https://deepmind.google/technologies/alphageometry/" target="_blank" class="inline-flex items-center px-3 py-1.5 bg-purple-50 text-purple-600 rounded-md text-sm hover:bg-purple-100 transition-colors">
+                                    <i class="fa fa-calculator mr-1"></i> AlphaGeometry
+                                </a>
+                            </div>
+                        </div>
+
+                        <!-- Anthropic 产品 -->
+                        <div class="tech-card p-5 rounded-lg shadow-lg hover-lift neon-glow">
+                            <div class="flex items-center mb-4">
+                                <div class="w-10 h-10 rounded-full bg-purple-100 flex items-center justify-center mr-3">
+                                    <span class="text-purple-600 font-bold text-sm">A</span>
+                                </div>
+                                <h3 class="font-medium">Anthropic</h3>
+                            </div>
+                            <p class="text-sm text-text-light mb-4">专注于AI安全的公司，开发Claude系列模型，致力于构建有用、无害、诚实的AI系统。</p>
+                            <div class="flex flex-wrap gap-2">
+                                <a href="https://www.anthropic.com/claude" target="_blank" class="inline-flex items-center px-3 py-1.5 bg-blue-50 text-blue-600 rounded-md text-sm hover:bg-blue-100 transition-colors">
+                                    <i class="fa fa-robot mr-1"></i> Claude 3.5 Sonnet
+                                </a>
+                                <a href="https://www.anthropic.com/claude" target="_blank" class="inline-flex items-center px-3 py-1.5 bg-purple-50 text-purple-600 rounded-md text-sm hover:bg-purple-100 transition-colors">
+                                    <i class="fa fa-brain mr-1"></i> Claude 3 Opus
+                                </a>
+                                <a href="https://www.anthropic.com/claude" target="_blank" class="inline-flex items-center px-3 py-1.5 bg-green-50 text-green-600 rounded-md text-sm hover:bg-green-100 transition-colors">
+                                    <i class="fa fa-bolt mr-1"></i> Claude 3 Haiku
+                                </a>
+                                <a href="https://www.anthropic.com/research" target="_blank" class="inline-flex items-center px-3 py-1.5 bg-gray-50 text-gray-600 rounded-md text-sm hover:bg-gray-100 transition-colors">
+                                    <i class="fa fa-shield mr-1"></i> Constitutional AI
+                                </a>
+                            </div>
+                        </div>
+
+                        <!-- Google Brain 产品 -->
+                        <div class="tech-card p-5 rounded-lg shadow-lg hover-lift neon-glow">
+                            <div class="flex items-center mb-4">
+                                <div class="w-10 h-10 rounded-full bg-red-100 flex items-center justify-center mr-3">
+                                    <span class="text-red-600 font-bold text-sm">G</span>
+                                </div>
+                                <h3 class="font-medium">Google Brain</h3>
+                            </div>
+                            <p class="text-sm text-text-light mb-4">Google的AI研究团队，专注于机器学习研究，开发了Transformer架构等突破性技术。</p>
+                            <div class="flex flex-wrap gap-2">
+                                <a href="https://ai.googleblog.com/" target="_blank" class="inline-flex items-center px-3 py-1.5 bg-blue-50 text-blue-600 rounded-md text-sm hover:bg-blue-100 transition-colors">
+                                    <i class="fa fa-search mr-1"></i> Google AI
+                                </a>
+                                <a href="https://pytorch.org/" target="_blank" class="inline-flex items-center px-3 py-1.5 bg-orange-50 text-orange-600 rounded-md text-sm hover:bg-orange-100 transition-colors">
+                                    <i class="fa fa-fire mr-1"></i> PyTorch
+                                </a>
+                                <a href="https://tensorflow.org/" target="_blank" class="inline-flex items-center px-3 py-1.5 bg-yellow-50 text-yellow-600 rounded-md text-sm hover:bg-yellow-100 transition-colors">
+                                    <i class="fa fa-cogs mr-1"></i> TensorFlow
+                                </a>
+                                <a href="https://transformer.huggingface.co/" target="_blank" class="inline-flex items-center px-3 py-1.5 bg-purple-50 text-purple-600 rounded-md text-sm hover:bg-purple-100 transition-colors">
+                                    <i class="fa fa-exchange mr-1"></i> Transformer
+                                </a>
+                            </div>
+                        </div>
+
+                        <!-- Microsoft Research 产品 -->
+                        <div class="tech-card p-5 rounded-lg shadow-lg hover-lift neon-glow">
+                            <div class="flex items-center mb-4">
+                                <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center mr-3">
+                                    <span class="text-blue-600 font-bold text-sm">M</span>
+                                </div>
+                                <h3 class="font-medium">Microsoft Research</h3>
+                            </div>
+                            <p class="text-sm text-text-light mb-4">微软研究院，专注于AI、机器学习、自然语言处理等领域的研究，开发了Copilot等产品。</p>
+                            <div class="flex flex-wrap gap-2">
+                                <a href="https://copilot.microsoft.com/" target="_blank" class="inline-flex items-center px-3 py-1.5 bg-blue-50 text-blue-600 rounded-md text-sm hover:bg-blue-100 transition-colors">
+                                    <i class="fa fa-code mr-1"></i> GitHub Copilot
+                                </a>
+                                <a href="https://azure.microsoft.com/en-us/services/cognitive-services/" target="_blank" class="inline-flex items-center px-3 py-1.5 bg-green-50 text-green-600 rounded-md text-sm hover:bg-green-100 transition-colors">
+                                    <i class="fa fa-cloud mr-1"></i> Azure AI
+                                </a>
+                                <a href="https://www.microsoft.com/en-us/research/research-area/artificial-intelligence/" target="_blank" class="inline-flex items-center px-3 py-1.5 bg-purple-50 text-purple-600 rounded-md text-sm hover:bg-purple-100 transition-colors">
+                                    <i class="fa fa-microchip mr-1"></i> AI Research
+                                </a>
+                                <a href="https://huggingface.co/microsoft" target="_blank" class="inline-flex items-center px-3 py-1.5 bg-gray-50 text-gray-600 rounded-md text-sm hover:bg-gray-100 transition-colors">
+                                    <i class="fa fa-hug-o mr-1"></i> Open Models
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- AI 应用解决方案 -->
+                <section id="ai-solutions" class="mb-10">
+                    <h2 class="text-2xl font-tech font-bold gradient-text mb-6">AI 应用解决方案</h2>
+                    <div class="h-px bg-gradient-to-r from-transparent via-primary/50 to-transparent mb-6"></div>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div class="tech-card rounded-lg shadow-lg overflow-hidden hover-lift neon-glow">
+                            <img src="https://picsum.photos/id/20/600/300" alt="智能客服解决方案" class="w-full h-40 object-cover">
+                            <div class="p-4">
+                                <h3 class="font-medium mb-2">智能客服解决方案</h3>
+                                <p class="text-sm text-text-light">基于大语言模型的多轮对话系统，支持多渠道接入和智能意图识别</p>
+                            </div>
+                        </div>
+                        <div class="tech-card rounded-lg shadow-lg overflow-hidden hover-lift neon-glow">
+                            <img src="https://picsum.photos/id/21/600/300" alt="AI 内容生成平台" class="w-full h-40 object-cover">
+                            <div class="p-4">
+                                <h3 class="font-medium mb-2">AI 内容生成平台</h3>
+                                <p class="text-sm text-text-light">一站式图文、视频内容创作工具，支持品牌风格定制和多平台适配</p>
+                            </div>
+                        </div>
+                        <div class="tech-card rounded-lg shadow-lg overflow-hidden hover-lift neon-glow">
+                            <img src="https://picsum.photos/id/22/600/300" alt="企业知识管理系统" class="w-full h-40 object-cover">
+                            <div class="p-4">
+                                <h3 class="font-medium mb-2">企业知识管理系统</h3>
+                                <p class="text-sm text-text-light">基于向量数据库的智能检索与问答系统，快速激活企业沉淀知识</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 更多AI解决方案链接 -->
+                    <div class="mt-6 text-center">
+                        <a href="https://www.baidu.com" target="_blank" class="inline-flex items-center px-8 py-4 bg-gradient-to-r from-primary to-neon text-dark rounded-lg hover:shadow-lg hover:shadow-primary/30 transition-all duration-300 font-tech font-bold text-lg animate-pulse-slow">
+                            <i class="fa fa-plus mr-3"></i>
+                            更多AI 解决方案
+                        </a>
+                    </div>
+                </section>
+
+                <!-- 我在学 AI -->
+                <section id="learning-ai" class="mb-10">
+                    <h2 class="text-2xl font-tech font-bold gradient-text mb-6">我在学 AI</h2>
+                    <div class="h-px bg-gradient-to-r from-transparent via-primary/50 to-transparent mb-6"></div>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <!-- 智能体开发 -->
+                        <div class="tech-card p-5 rounded-lg shadow-lg neon-glow">
+                            <h3 class="text-base font-medium mb-3 flex items-center">
+                                <i class="fa fa-robot text-primary mr-2"></i> 智能体开发
+                            </h3>
+                            <ul class="space-y-2">
+                                <li class="flex items-center">
+                                    <a href="#" class="text-sm hover:text-primary transition-colors flex-1">智能体开发入门</a>
+                                    <i class="fa fa-external-link text-xs text-text-light"></i>
+                                </li>
+                                <li class="flex items-center">
+                                    <a href="#" class="text-sm hover:text-primary transition-colors flex-1">高手进阶</a>
+                                    <i class="fa fa-external-link text-xs text-text-light"></i>
+                                </li>
+                                <li class="flex items-center">
+                                    <a href="#" class="text-sm hover:text-primary transition-colors flex-1">在线课程</a>
+                                    <i class="fa fa-external-link text-xs text-text-light"></i>
+                                </li>
+                            </ul>
+                        </div>
+                        
+                        <!-- AI 创作与提示工程 -->
+                        <div class="tech-card p-5 rounded-lg shadow-lg neon-glow">
+                            <h3 class="text-base font-medium mb-3 flex items-center">
+                                <i class="fa fa-paint-brush text-primary mr-2"></i> AI 创作与提示工程
+                            </h3>
+                            <ul class="space-y-2">
+                                <li class="flex items-center">
+                                    <a href="https://www.midjourney.com/" target="_blank" class="text-sm hover:text-primary transition-colors flex-1">Midjourney 图像生成</a>
+                                    <i class="fa fa-external-link text-xs text-text-light"></i>
+                                </li>
+                                <li class="flex items-center">
+                                    <a href="https://learnprompting.org/" target="_blank" class="text-sm hover:text-primary transition-colors flex-1">Prompt 工程指南</a>
+                                    <i class="fa fa-external-link text-xs text-text-light"></i>
+                                </li>
+                                <li class="flex items-center">
+                                    <a href="https://platform.openai.com/docs/guides/prompt-engineering" target="_blank" class="text-sm hover:text-primary transition-colors flex-1">OpenAI 提示工程指南</a>
+                                    <i class="fa fa-external-link text-xs text-text-light"></i>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- 开发实战 -->
+                        <div class="tech-card p-5 rounded-lg shadow-lg neon-glow">
+                            <h3 class="text-base font-medium mb-3 flex items-center">
+                                <i class="fa fa-code text-primary mr-2"></i> 开发实战
+                            </h3>
+                            <ul class="space-y-2">
+                                <li class="flex items-center">
+                                    <a href="https://python.langchain.com/docs/modules/agents/" target="_blank" class="text-sm hover:text-primary transition-colors flex-1">LangChain Agent 开发指南</a>
+                                    <i class="fa fa-external-link text-xs text-text-light"></i>
+                                </li>
+                                <li class="flex items-center">
+                                    <a href="https://www.deeplearning.ai/short-courses/building-agents-with-langchain/" target="_blank" class="text-sm hover:text-primary transition-colors flex-1">DeepLearning.AI Agent 课</a>
+                                    <i class="fa fa-external-link text-xs text-text-light"></i>
+                                </li>
+                                <li class="flex items-center">
+                                    <a href="https://agentgpt.reworkd.ai/" target="_blank" class="text-sm hover:text-primary transition-colors flex-1">AgentGPT 在线体验</a>
+                                    <i class="fa fa-external-link text-xs text-text-light"></i>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 开源社区 -->
+                <section id="open-source" class="mb-10">
+                    <h2 class="text-2xl font-tech font-bold gradient-text mb-6">开源社区</h2>
+                    <div class="h-px bg-gradient-to-r from-transparent via-primary/50 to-transparent mb-6"></div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                        <a href="https://coze.com/" target="_blank" class="tech-card p-4 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 flex items-center cyber-border hover:border-primary/60">
+                            <div class="w-10 h-10 rounded bg-blue-100 flex items-center justify-center mr-3">
+                                <i class="fa fa-cubes text-primary"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-medium">Coze</h3>
+                                <p class="text-xs text-text-light">字节跳动推出的AI机器人开发平台</p>
+                            </div>
+                        </a>
+                        <a href="https://dify.ai/" target="_blank" class="tech-card p-4 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 flex items-center cyber-border hover:border-primary/60">
+                            <div class="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center mr-3">
+                                <i class="fa fa-code text-green-600"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-medium text-text">Dify.AI</h3>
+                                <p class="text-xs text-text-light">开源的LLM应用开发平台</p>
+                            </div>
+                        </a>
+                        <a href="https://langchain.com/" target="_blank" class="tech-card p-4 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 flex items-center cyber-border hover:border-primary/60">
+                            <div class="w-10 h-10 rounded-full bg-orange-100 flex items-center justify-center mr-3">
+                                <i class="fa fa-link text-orange-600"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-medium text-text">LangChain</h3>
+                                <p class="text-xs text-text-light">大语言模型应用开发框架</p>
+                            </div>
+                        </a>
+                        <a href="https://github.com/lm-sys/FastChat" target="_blank" class="tech-card p-4 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 flex items-center cyber-border hover:border-primary/60">
+                            <div class="w-10 h-10 rounded-full bg-purple-100 flex items-center justify-center mr-3">
+                                <i class="fa fa-comments text-purple-600"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-medium text-text">FastChat</h3>
+                                <p class="text-xs text-text-light">开源聊天机器人训练与部署框架</p>
+                            </div>
+                        </a>
+                        <a href="https://www.llamaindex.ai/" target="_blank" class="tech-card p-4 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 flex items-center cyber-border hover:border-primary/60">
+                            <div class="w-10 h-10 rounded-full bg-red-100 flex items-center justify-center mr-3">
+                                <i class="fa fa-search text-red-600"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-medium text-text">LlamaIndex</h3>
+                                <p class="text-xs text-text-light">连接LLM与外部数据的索引框架</p>
+                            </div>
+                        </a>
+                        <a href="https://huggingface.co/" target="_blank" class="tech-card p-4 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 flex items-center cyber-border hover:border-primary/60">
+                            <div class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center mr-3">
+                                <i class="fa fa-hug-o text-gray-600"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-medium text-text">Hugging Face</h3>
+                                <p class="text-xs text-text-light">开源AI模型与数据集社区</p>
+                            </div>
+                        </a>
+                    </div>
+                </section>
+
+                <!-- 学术资源平台 -->
+                <section id="academic-resources" class="mb-10">
+                    <h2 class="text-2xl font-tech font-bold gradient-text mb-6">学术资源平台</h2>
+                    <div class="h-px bg-gradient-to-r from-transparent via-primary/50 to-transparent mb-6"></div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- 论文与预印本平台 -->
+                        <div class="tech-card p-5 rounded-lg shadow-lg neon-glow">
+                            <h3 class="text-base font-medium mb-3 flex items-center">
+                                <i class="fa fa-book text-primary mr-2"></i> 论文与预印本平台
+                            </h3>
+                            <ul class="space-y-2">
+                                <li class="flex items-center">
+                                    <a href="https://arxiv.org/list/cs.AI/recent" target="_blank" class="text-sm hover:text-primary transition-colors flex-1">arXiv (cs.AI 分类)</a>
+                                    <span class="text-xs text-text-light">AI领域预印本</span>
+                                </li>
+                                <li class="flex items-center">
+                                    <a href="https://scholar.google.com/" target="_blank" class="text-sm hover:text-primary transition-colors flex-1">Google Scholar</a>
+                                    <span class="text-xs text-text-light">学术文献检索</span>
+                                </li>
+                                <li class="flex items-center">
+                                    <a href="https://paperswithcode.com/" target="_blank" class="text-sm hover:text-primary transition-colors flex-1">Papers with Code</a>
+                                    <span class="text-xs text-text-light">论文与代码关联</span>
+                                </li>
+                                <li class="flex items-center">
+                                    <a href="https://www.semanticscholar.org/" target="_blank" class="text-sm hover:text-primary transition-colors flex-1">Semantic Scholar</a>
+                                    <span class="text-xs text-text-light">AI驱动的学术检索</span>
+                                </li>
+                            </ul>
+                        </div>
+                        
+                        <!-- 学术会议与期刊 -->
+                        <div class="tech-card p-5 rounded-lg shadow-lg neon-glow">
+                            <h3 class="text-base font-medium mb-3 flex items-center">
+                                <i class="fa fa-graduation-cap text-primary mr-2"></i> 学术会议与期刊
+                            </h3>
+                            <ul class="space-y-2">
+                                <li class="flex items-center">
+                                    <a href="https://neurips.cc/" target="_blank" class="text-sm hover:text-primary transition-colors flex-1">NeurIPS</a>
+                                    <span class="text-xs text-text-light">神经信息处理系统会议</span>
+                                </li>
+                                <li class="flex items-center">
+                                    <a href="https://icml.cc/" target="_blank" class="text-sm hover:text-primary transition-colors flex-1">ICML</a>
+                                    <span class="text-xs text-text-light">国际机器学习会议</span>
+                                </li>
+                                <li class="flex items-center">
+                                    <a href="https://iclr.cc/" target="_blank" class="text-sm hover:text-primary transition-colors flex-1">ICLR</a>
+                                    <span class="text-xs text-text-light">国际学习表征会议</span>
+                                </li>
+                                <li class="flex items-center">
+                                    <a href="https://www.jmlr.org/" target="_blank" class="text-sm hover:text-primary transition-colors flex-1">JMLR</a>
+                                    <span class="text-xs text-text-light">机器学习研究期刊</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- AI 专业媒体 -->
+                <section id="ai-media" class="mb-10">
+                    <h2 class="text-2xl font-tech font-bold gradient-text mb-6">AI专业媒体</h2>
+                    <div class="h-px bg-gradient-to-r from-transparent via-primary/50 to-transparent mb-6"></div>
+                    <div class="tech-card p-5 rounded-lg shadow-lg neon-glow">
+                        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+                            <a href="https://www.technologyreview.com/" target="_blank" class="flex flex-col items-center p-3 cyber-border rounded-lg hover:border-primary/60 hover:bg-primary/5 transition-all duration-300 tech-card">
+                                <i class="fa fa-newspaper-o text-2xl text-primary mb-2"></i>
+                                <span class="text-sm text-center">MIT Technology Review</span>
+                            </a>
+                            <a href="https://www.aiindex.stanford.edu/" target="_blank" class="flex flex-col items-center p-3 border border-gray-100 rounded-lg hover:border-primary hover:bg-blue-50 transition-colors">
+                                <i class="fa fa-line-chart text-2xl text-primary mb-2"></i>
+                                <span class="text-sm text-center">Stanford AI Index</span>
+                            </a>
+                            <a href="https://airesearch.cc/" target="_blank" class="flex flex-col items-center p-3 border border-gray-100 rounded-lg hover:border-primary hover:bg-blue-50 transition-colors">
+                                <i class="fa fa-flask text-2xl text-primary mb-2"></i>
+                                <span class="text-sm text-center">AI Research</span>
+                            </a>
+                            <a href="https://www.vox.com/future-perfect/23683084/ai-artificial-intelligence-chatgpt-openai-google" target="_blank" class="flex flex-col items-center p-3 border border-gray-100 rounded-lg hover:border-primary hover:bg-blue-50 transition-colors">
+                                <i class="fa fa-comments text-2xl text-primary mb-2"></i>
+                                <span class="text-sm text-center">Vox AI</span>
+                            </a>
+                            <a href="https://www.wired.com/category/artificial-intelligence/" target="_blank" class="flex flex-col items-center p-3 border border-gray-100 rounded-lg hover:border-primary hover:bg-blue-50 transition-colors">
+                                <i class="fa fa-plug text-2xl text-primary mb-2"></i>
+                                <span class="text-sm text-center">Wired AI</span>
+                            </a>
+                            <a href="https://arstechnica.com/category/artificial-intelligence/" target="_blank" class="flex flex-col items-center p-3 border border-gray-100 rounded-lg hover:border-primary hover:bg-blue-50 transition-colors">
+                                <i class="fa fa-microchip text-2xl text-primary mb-2"></i>
+                                <span class="text-sm text-center">Ars Technica</span>
+                            </a>
+                            <a href="https://towardsdatascience.com/" target="_blank" class="flex flex-col items-center p-3 border border-gray-100 rounded-lg hover:border-primary hover:bg-blue-50 transition-colors">
+                                <i class="fa fa-pencil text-2xl text-primary mb-2"></i>
+                                <span class="text-sm text-center">Towards Data Science</span>
+                            </a>
+                            <a href="https://thegradient.pub/" target="_blank" class="flex flex-col items-center p-3 border border-gray-100 rounded-lg hover:border-primary hover:bg-blue-50 transition-colors">
+                                <i class="fa fa-bar-chart text-2xl text-primary mb-2"></i>
+                                <span class="text-sm text-center">The Gradient</span>
+                            </a>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- 右侧边栏（与 mvp 一致） -->
+            <aside class="hidden lg:block w-96 flex-shrink-0 sticky top-24 self-start h-[calc(100vh-6rem)] overflow-y-auto">
+                <div class="space-y-6">
+
+                    <section class="tech-card p-4 rounded-lg shadow-lg neon-glow">
+                        <h2 class="text-base font-tech font-bold mb-3 flex items-center text-primary">
+                            <i class="fa fa-fire text-accent mr-2"></i>热门动态
+                        </h2>
+                        <div class="space-y-4">
+                            <div class="flex items-start gap-3 pb-4">
+                                <span class="flex-shrink-0 w-6 h-6 bg-gradient-to-r from-primary to-neon text-dark rounded-full flex items-center justify-center text-sm font-tech font-bold">1</span>
+                                <div>
+                                    <a href="#" class="text-sm hover:text-primary transition-colors line-clamp-2">OpenAI 发布 GPT-5 技术白皮书，详细阐述模型架构创新与安全机制</a>
+                                    <div class="flex items-center mt-1 text-xs text-text-light">
+                                        <span >官方公告</span>
+                                        <span class="mx-2">•</span>
+                                        <span>2小时前</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-3 pb-4 ">
+                                <span class="flex-shrink-0 w-6 h-6 bg-orange-100 text-orange-600 rounded-full flex items-center justify-center text-sm font-bold">2</span>
+                                <div>
+                                    <a href="#" class="text-sm hover:text-primary transition-colors line-clamp-2">Anthropic 开源 Claude 3 模型训练数据集（脱敏版），推动可解释性研究</a>
+                                    <div class="flex items-center mt-1 text-xs text-text-light">
+                                        <span >开源</span>
+                                        <span class="mx-2">•</span>
+                                        <span>5小时前</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-3 pb-4">
+                                <span class="flex-shrink-0 w-6 h-6 bg-orange-100 text-orange-600 rounded-full flex items-center justify-center text-sm font-bold">3</span>
+                                <div>
+                                    <a href="#" class="text-sm hover:text-primary transition-colors line-clamp-2">吴恩达团队发布 ML Engineering 课程更新，新增大模型部署优化模块</a>
+                                    <div class="flex items-center mt-1 text-xs text-text-light">
+                                        <span >教育资源</span>
+                                        <span class="mx-2">•</span>
+                                        <span>1天前</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-3">
+                                <span class="flex-shrink-0 w-6 h-6 bg-gradient-to-r from-dark-lighter to-dark text-text rounded-full flex items-center justify-center text-sm font-tech font-bold">4</span>
+                                <div>
+                                    <a href="#" class="text-sm hover:text-primary transition-colors line-clamp-2">NeurIPS 2025 接收论文列表公布，多模态与安全对齐方向占比显著提升</a>
+                                    <div class="flex items-center mt-1 text-xs text-text-light">
+                                        <span >学术会议</span>
+                                        <span class="mx-2">•</span>
+                                        <span>1天前</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-4 text-center">
+                            <a href="#" class="text-sm text-primary hover:underline">查看更多 →</a>
+                        </div>
+                    </section>
+                </div>
+            </aside>
+        </div>
+    </main>
+
+    <!-- 页脚 -->
+    <footer class="bg-dark border-t border-primary/20">
+        <div class="container mx-auto px-4 md:px-6 py-8">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-4 md:mb-0">
+                    <p class="text-sm text-text-light font-tech">
+                        AGI FirstSource 致力于聚合AI/AGI领域一手技术资讯，拒绝二次加工
+                    </p>
+                </div>
+                <div class="flex flex-wrap justify-center gap-x-6 gap-y-2 mb-4 md:mb-0">
+                    <a href="#" class="text-sm text-primary hover:text-neon transition-colors font-tech">关于我们</a>
+                    <a href="#" class="text-sm text-primary hover:text-neon transition-colors font-tech">信源合作</a>
+                    <a href="#" class="text-sm text-primary hover:text-neon transition-colors font-tech">反馈建议</a>
+                    <a href="#" class="text-sm text-primary hover:text-neon transition-colors font-tech">隐私政策</a>
+                </div>
+                <div>
+                    <p class="text-xs text-text-lighter font-tech">
+                        © 2025 AGI FirstSource | 非盈利资讯聚合平台
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/app.js"></script>
+</body>
+</html>
+
